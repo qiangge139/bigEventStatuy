@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/iconfont.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -29,8 +30,58 @@
             </form>
         </div>
 
-    </div> 
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+                </div>
+                <div class="modal-body">
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    //导入jquery
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        $('.input_sub').click(function(e){
+            // 静止默认行为
+            e.preventDefault();
+            //获取到txet的内容进行判断
+            var userName=$('.input_txt').val();
+            var password=$('.input_pass').val();
+            if(userName==''||password==''){
+                $('.modal-body').text('账号或密码不能为空');
+                $('#myModal').modal({keyboard: false})
+                return;
+            }else{
+                $.post({
+                    url:'http://localhost:8000/admin/login',
+                    data:{
+                        user_name:userName,
+                        password:password,
+                    },
+                    success:function(res){
+                        if(res.code==200){
+                            window.location.href='index.html';
+                        }else{
+                            $('.modal-body').text('账号或密码错误');
+                            $('#myModal').modal({keyboard: false})
+                        }
+                    }
 
+                })
+            }
+        })
+    </script>
 </body>
 
 </html>
